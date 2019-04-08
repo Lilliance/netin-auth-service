@@ -1,0 +1,30 @@
+@import "../../theme";
+
+.bp3-form-group {
+  .bp3-form-content {
+    margin-top: 20px;
+    & > .bp3-input-group,
+    & > .bp3-button,
+    & > .bp3-callout {
+      margin-bottom: 15px;
+    }
+
+    & > .bp3-callout {
+      border-radius: 20px;
+    }
+
+    & > .bp3-button {
+      border: none;
+      background: $primary;
+      color: $primaryInverse;
+      transition: 0.2s;
+      padding: 0 15px;
+
+      &:not(.bp3-disabled):hover {
+        background: darken($primary, 10);
+      }
+
+
+    }
+  }
+}
