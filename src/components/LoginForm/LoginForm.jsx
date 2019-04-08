@@ -92,6 +92,7 @@ class LoginForm extends Component {
       error,
       requires
     } = this.state;
+    const { disabled } = this.props;
 
     const lockButton = (
       <Tooltip content={`${showPassword ? "Hide" : "Show"} Password`}>
@@ -100,13 +101,14 @@ class LoginForm extends Component {
           intent={Intent.WARNING}
           minimal={true}
           onClick={this.handleLockClick}
+          disabled={disabled}
         />
       </Tooltip>
     );
 
     return (
       <form onSubmit={this.handleFormSubmit}>
-        <FormGroup>
+        <FormGroup disabled={disabled}>
           <InputGroup
             id="login"
             name="login"
@@ -116,6 +118,7 @@ class LoginForm extends Component {
             onChange={this.handleChange("login")}
             required
             value={login}
+            disabled={disabled}
             intent={requires.includes("login") ? Intent.DANGER : Intent.NONE}
             large
             round
@@ -132,6 +135,7 @@ class LoginForm extends Component {
             required
             intent={requires.includes("password") ? Intent.DANGER : Intent.NONE}
             value={password}
+            disabled={disabled}
             large
             round
           />
@@ -140,7 +144,12 @@ class LoginForm extends Component {
               {error}
             </Callout>
           )}
-          <Button style={{ borderRadius: "50px" }} type="submit" small>
+          <Button
+            style={{ borderRadius: "50px" }}
+            type="submit"
+            small
+            disabled={disabled}
+          >
             {isLoading ? (
               <Spinner size={15} intent={Intent.WARNING} />
             ) : (
@@ -153,8 +162,13 @@ class LoginForm extends Component {
   }
 }
 
+LoginForm.defaultProps = {
+  disabled: false
+};
+
 LoginForm.propTypes = {
-  onLogin: PropTypes.func.isRequired
+  onLogin: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default LoginForm;

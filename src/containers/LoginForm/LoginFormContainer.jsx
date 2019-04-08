@@ -3,15 +3,19 @@ import LoginForm from "../../components/LoginForm";
 
 class LoginFormContainer extends Component {
   state = {
-    isLoginSuccess: false
+    isLoginSuccess: false,
+    disabled: false
   };
 
   onLogin = (login, password) => {
+    this.setState(prevState => ({ disabled: !prevState.disabled }));
     alert(`You're trying to login as ${login} : ${password}`);
   };
 
   render() {
-    return <LoginForm onLogin={this.onLogin} />;
+    const { disabled } = this.state;
+
+    return <LoginForm onLogin={this.onLogin} disabled={disabled} />;
   }
 }
 
