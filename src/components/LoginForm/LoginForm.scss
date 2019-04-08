@@ -20,6 +20,10 @@
       transition: 0.2s;
       padding: 0 15px;
 
+      &.bp3-disabled {
+        background: rgba(206,217,224,.5);
+      }
+
       &:not(.bp3-disabled):hover {
         background: darken($primary, 10);
       }
