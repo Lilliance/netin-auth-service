@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import LoginForm from "../../components/LoginForm";
+import axios from "axios";
 
 class LoginFormContainer extends Component {
   state = {
@@ -7,9 +8,20 @@ class LoginFormContainer extends Component {
     disabled: false
   };
 
-  onLogin = (login, password) => {
+  onLogin = (username, password) => {
     this.setState(prevState => ({ disabled: !prevState.disabled }));
-    alert(`You're trying to login as ${login} : ${password}`);
+    const params = {
+      username,
+      password,
+      response_type: "token",
+      redirect_url: "https://www.technovendors.com",
+      client_id: "testing"
+    };
+
+    axios
+      .get(process.env.REACT_APP_API_URL, { params })
+      .then(console.log)
+      .catch(e => console.error(e.message));
   };
 
   render() {
