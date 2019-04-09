@@ -21,8 +21,8 @@ class LoginFormContainer extends Component {
     axios
       .post(process.env.REACT_APP_API_URL, params)
       .then(response => {
-        if(!response.data || !response.data.location) {
-          throw new Error('Something went wrong');
+        if (!response.data || !response.data.location) {
+          throw new Error("Something went wrong");
         }
 
         window.location.href = response.data.location;
