@@ -22,14 +22,25 @@ class LoginFormContainer extends Component {
     axios
       .post(process.env.REACT_APP_API_URL, params)
       .then(response => {
-        if (!response.data || !response.data.location) {
+        if (!response.data || !response.data.redirect_url) {
           throw new Error("Something went wrong");
         }
 
-        window.location.href = response.data.location;
+        window.location.href = response.data.redirect_url;
       })
       .catch(e => {
-        this.setState({ error: e.message, disabled: false });
+        let error = e.message;
+
+        if (
+          e.response &&
+          e.response.data &&
+          e.response.data.error &&
+          e.response.data.error.message
+        ) {
+          error = e.response.data.error.message;
+        }
+
+        this.setState({ error, disabled: false });
       });
   };
 
