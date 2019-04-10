@@ -10,7 +10,7 @@ class LoginFormContainer extends Component {
   };
 
   onLogin = (username, password) => {
-    this.setState(prevState => ({ disabled: !prevState.disabled }));
+    this.setState(prevState => ({ disabled: !prevState.disabled, error: null }));
     const params = {
       username,
       password,

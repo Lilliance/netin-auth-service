@@ -87,8 +87,8 @@ class LoginForm extends Component {
     this.setState({ requires: [...requires, fieldName] });
   };
 
-  static getDerivedStateFromProps(props) {
-    if (props.error) {
+  static getDerivedStateFromProps(props, state) {
+    if (state.error !== props.error) {
       return { error: props.error };
     }
 
