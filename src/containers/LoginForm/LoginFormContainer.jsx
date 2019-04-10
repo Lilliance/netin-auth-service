@@ -5,7 +5,8 @@ import axios from "axios";
 class LoginFormContainer extends Component {
   state = {
     isLoginSuccess: false,
-    disabled: false
+    disabled: false,
+    error: null
   };
 
   onLogin = (username, password) => {
@@ -27,13 +28,17 @@ class LoginFormContainer extends Component {
 
         window.location.href = response.data.location;
       })
-      .catch(e => console.error(e.message));
+      .catch(e => {
+        this.setState({ error: e.message, disabled: false });
+      });
   };
 
   render() {
-    const { disabled } = this.state;
+    const { disabled, error } = this.state;
 
-    return <LoginForm onLogin={this.onLogin} disabled={disabled} />;
+    return (
+      <LoginForm onLogin={this.onLogin} disabled={disabled} error={error} />
+    );
   }
 }
 
