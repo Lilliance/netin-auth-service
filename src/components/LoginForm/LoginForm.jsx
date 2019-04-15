@@ -13,14 +13,18 @@ import {
 import "./LoginForm.scss";
 
 class LoginForm extends Component {
-  state = {
-    showPassword: false,
-    isLoading: false,
-    login: "",
-    password: "",
-    requires: [],
-    error: null
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showPassword: false,
+      isLoading: false,
+      login: "",
+      password: "",
+      requires: [],
+      error: props.error || null
+    };
+  }
 
   handleLockClick = () =>
     this.setState(prevState => ({ showPassword: !prevState.showPassword }));
@@ -82,6 +86,14 @@ class LoginForm extends Component {
 
     this.setState({ requires: [...requires, fieldName] });
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (state.error !== props.error) {
+      return { error: props.error };
+    }
+
+    return null;
+  }
 
   render() {
     const {
@@ -150,7 +162,7 @@ class LoginForm extends Component {
             small
             disabled={disabled}
           >
-            {isLoading ? (
+            {isLoading && disabled ? (
               <Spinner size={15} intent={Intent.WARNING} />
             ) : (
               "Login"

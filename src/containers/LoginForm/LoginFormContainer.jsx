@@ -5,11 +5,12 @@ import axios from "axios";
 class LoginFormContainer extends Component {
   state = {
     isLoginSuccess: false,
-    disabled: false
+    disabled: false,
+    error: null
   };
 
   onLogin = (username, password) => {
-    this.setState(prevState => ({ disabled: !prevState.disabled }));
+    this.setState(prevState => ({ disabled: !prevState.disabled, error: null }));
     const params = {
       username,
       password,
@@ -19,15 +20,36 @@ class LoginFormContainer extends Component {
     };
 
     axios
-      .get(process.env.REACT_APP_API_URL, { params })
-      .then(console.log)
-      .catch(e => console.error(e.message));
+      .post(process.env.REACT_APP_API_URL, params)
+      .then(response => {
+        if (!response.data || !response.data.redirect_url) {
+          throw new Error("Something went wrong");
+        }
+
+        window.location.href = response.data.redirect_url;
+      })
+      .catch(e => {
+        let error = e.message;
+
+        if (
+          e.response &&
+          e.response.data &&
+          e.response.data.error &&
+          e.response.data.error.message
+        ) {
+          error = e.response.data.error.message;
+        }
+
+        this.setState({ error, disabled: false });
+      });
   };
 
   render() {
-    const { disabled } = this.state;
+    const { disabled, error } = this.state;
 
-    return <LoginForm onLogin={this.onLogin} disabled={disabled} />;
+    return (
+      <LoginForm onLogin={this.onLogin} disabled={disabled} error={error} />
+    );
   }
 }
 
