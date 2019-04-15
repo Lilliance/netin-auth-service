@@ -1,1 +1,1 @@
-Demo - auth.lidev.ru
+Demo: http://auth.lidev.ru
